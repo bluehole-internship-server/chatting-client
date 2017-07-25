@@ -30,6 +30,7 @@
         {
             this.btnLogin = new System.Windows.Forms.Button();
             this.txtUserName = new System.Windows.Forms.TextBox();
+            this.lblResultMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -50,11 +51,22 @@
             this.txtUserName.Size = new System.Drawing.Size(113, 21);
             this.txtUserName.TabIndex = 1;
             // 
+            // lblResultMessage
+            // 
+            this.lblResultMessage.AutoSize = true;
+            this.lblResultMessage.Font = new System.Drawing.Font("굴림", 9F);
+            this.lblResultMessage.Location = new System.Drawing.Point(10, 48);
+            this.lblResultMessage.Margin = new System.Windows.Forms.Padding(0);
+            this.lblResultMessage.Name = "lblResultMessage";
+            this.lblResultMessage.Size = new System.Drawing.Size(0, 12);
+            this.lblResultMessage.TabIndex = 2;
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(226, 69);
+            this.Controls.Add(this.lblResultMessage);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnLogin);
             this.MaximizeBox = false;
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.Label lblResultMessage;
     }
 }

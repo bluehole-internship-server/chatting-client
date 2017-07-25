@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace chatting_client
 {
@@ -20,9 +20,9 @@ namespace chatting_client
         private const int port = 5150;
 
         public static Socket client;
-        public static State state;        
+        public static State state;
+        public static String user_name;
 
-        
         [STAThread]
         static void Main()
         {
@@ -32,8 +32,7 @@ namespace chatting_client
 
                 client = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-
-                client.Connect(remoteEP);
+                // client.Connect(remoteEP); it's lagging
 
             } catch (Exception e) {
                 MessageBox.Show(e.ToString());
@@ -43,7 +42,14 @@ namespace chatting_client
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             Application.Run(new FormLogin());
+
+            if (state == State.LoginSucc) {
+                FormChat form_chat = new FormChat();
+                Thread recv_thread = new Thread(form_chat.receive);
+                Application.Run(form_chat);
+            }
         }
     }
 }
