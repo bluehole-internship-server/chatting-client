@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace chatting_client
@@ -10,9 +13,34 @@ namespace chatting_client
         /// <summary>
         /// 해당 응용 프로그램의 주 진입점입니다.
         /// </summary>
+        /// 
+        public enum State { LoginReady, LoginSucc, Chat };
+
+        private const String addr = "10.1.5.30";
+        private const int port = 5150;
+
+        public static Socket client;
+        public static State state;        
+
+        
         [STAThread]
         static void Main()
         {
+            try {
+                IPAddress ipAddress = IPAddress.Parse(addr);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+
+                client = new Socket(AddressFamily.InterNetwork,
+                    SocketType.Stream, ProtocolType.Tcp);
+
+                client.Connect(remoteEP);
+
+            } catch (Exception e) {
+                MessageBox.Show(e.ToString());
+            }
+
+            state = State.LoginReady;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormLogin());

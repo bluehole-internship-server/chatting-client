@@ -15,5 +15,11 @@ namespace chatting_client
         {
             InitializeComponent();
         }
+
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(txtUserName.Text);
+            
+        }
     }
 }
