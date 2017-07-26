@@ -71,7 +71,7 @@
             this.Controls.Add(this.btnLogin);
             this.MaximizeBox = false;
             this.Name = "FormLogin";
-            this.Text = "FormLogin";
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

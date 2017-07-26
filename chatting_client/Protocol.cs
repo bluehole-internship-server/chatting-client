@@ -67,9 +67,6 @@ namespace chatting_client
 
             public Type type;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public String user_name;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public String chat_msg;
         }
@@ -105,6 +102,10 @@ namespace chatting_client
             byte[] byte_header = new byte[4];
             byte[] byte_packet = new byte[350];
 
+            // HACK?
+            Array.Clear(byte_header, 0, 4);
+            Array.Clear(byte_packet, 0, 350);
+
             try
             {
                 int ret = 0;
@@ -116,8 +117,8 @@ namespace chatting_client
                 }
 
                 header = ByteArrayToPacket<PacketHeader>(byte_header, len_header);
-                ret = 0;
 
+                ret = 0;
                 while (ret < header.size)
                 {
                     ret += client.Receive(byte_packet, ret, header.size - ret, SocketFlags.None);
@@ -125,7 +126,7 @@ namespace chatting_client
 
                 return byte_packet;
             }
-            catch (SocketException)
+             catch (SocketException)
             {
                 throw;
             }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace chatting_client
 {
@@ -16,7 +17,14 @@ namespace chatting_client
         {
             InitializeComponent();
 
+            rtfChatBox.SelectionCharOffset = 8;
             rtfChatBox.AppendText("Welcome to the chat room!\n");
+        }
+
+        private void FormChat_Shown(object sender, EventArgs e)
+        {
+            Thread recv_thread = new Thread(this.receive);
+            recv_thread.Start();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -62,19 +70,46 @@ namespace chatting_client
         {
             Protocol.PacketHeader header = new Protocol.PacketHeader();
             Protocol.PacketChatRecv chat_recv = new Protocol.PacketChatRecv();
-
+            
+               
             while (true)
             {
-                byte[] byte_chat_recv = Protocol.RecvFromServer(Program.client, ref (header));
+                try
+                {
+                    byte[] byte_chat_recv = Protocol.RecvFromServer(Program.client, ref (header));
 
-                if (header.type != Protocol.PacketType.CHAT_RECV) {
-                    continue;
+                    if (header.type != Protocol.PacketType.CHAT_RECV)
+                    {
+                        continue;
+                    }
+
+                    chat_recv = Protocol.ByteArrayToPacket<Protocol.PacketChatRecv>
+                        (byte_chat_recv, header.size);
+
+                    // post process
+
+                    AppendChatBox(chat_recv.chat_msg);
                 }
-
-                chat_recv = Protocol.ByteArrayToPacket<Protocol.PacketChatRecv>
-                    (byte_chat_recv, header.size);
-                rtfChatBox.AppendText(chat_recv.chat_msg + '\n');
+                catch(Exception)
+                {
+                    this.Close();
+                    break;
+                }
             }
+        }
+
+        private void AppendChatBox(string msg)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AppendChatBox), new object[] { msg });
+                return;
+            }
+            rtfChatBox.SelectionCharOffset = 5;
+            rtfChatBox.AppendText(msg + '\n');
+
+            rtfChatBox.Select(rtfChatBox.Text.Length, 0);
+            rtfChatBox.ScrollToCaret();
         }
     }
 }

@@ -16,12 +16,12 @@ namespace chatting_client
         /// 
         public enum State { LoginReady, LoginSucc, Chat };
 
-        private const String addr = "10.1.5.30";
+        private const String addr = "127.0.0.1";
         private const int port = 55150;
 
         public static Socket client;
         public static State state;
-        public static String user_name;
+        public static String user_name = "default";
 
         [STAThread]
         static void Main()
@@ -42,14 +42,14 @@ namespace chatting_client
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             Application.Run(new FormLogin());
 
-            if (state == State.LoginSucc) {
-                FormChat form_chat = new FormChat();
-                Thread recv_thread = new Thread(form_chat.receive);
-                Application.Run(form_chat);
+            if (state == State.LoginSucc) 
+            {
+                Application.Run(new FormChat());
             }
+            MessageBox.Show("Client terminated");
         }
     }
 }

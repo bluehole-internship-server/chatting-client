@@ -54,6 +54,7 @@
             this.rtfChatBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.rtfChatBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.rtfChatBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtfChatBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.rtfChatBox.Location = new System.Drawing.Point(20, 12);
             this.rtfChatBox.Name = "rtfChatBox";
             this.rtfChatBox.ReadOnly = true;
@@ -90,7 +91,8 @@
             this.Controls.Add(this.rtfChatBox);
             this.Controls.Add(this.txtChatMsg);
             this.Name = "FormChat";
-            this.Text = "FormChat";
+            this.Text = "Chat";
+            this.Shown += new System.EventHandler(this.FormChat_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
