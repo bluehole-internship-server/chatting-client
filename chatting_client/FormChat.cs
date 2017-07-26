@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace chatting_client
 {
@@ -22,7 +23,15 @@ namespace chatting_client
         {
             String contents = txtChatMsg.Text;
             txtChatMsg.Clear();
-            /* TODO : Make packet and send to Chatting server */
+
+            try
+            {
+                SendMessage(contents);
+            }
+            catch(Exception)
+            {
+                lblError.Text = "에러가 발생함";
+            }
         }
 
         private void txtChatMsg_KeyDown(object sender, KeyEventArgs e)
@@ -33,10 +42,38 @@ namespace chatting_client
             }
         }
 
+        private void SendMessage(String message)
+        {
+            Protocol.PacketHeader header = new Protocol.PacketHeader();
+            Protocol.PacketChatSend chat_send = new Protocol.PacketChatSend();
+
+            header.type = Protocol.PacketType.CHAT_SEND;
+            header.size = (short)Protocol.currEncoding.GetByteCount(message);
+            chat_send.chat_msg = message;
+
+            byte[] byte_header = Protocol.PacketToByteArray(header);
+            byte[] byte_chat_send = Protocol.PacketToByteArray(chat_send);
+
+            Program.client.Send(byte_header);
+            Program.client.Send(byte_chat_send);
+        }
+
         public void receive()
         {
-            while(true) {
-                /* TODO : Receive packet and apply */
+            Protocol.PacketHeader header = new Protocol.PacketHeader();
+            Protocol.PacketChatRecv chat_recv = new Protocol.PacketChatRecv();
+
+            while (true)
+            {
+                byte[] byte_chat_recv = Protocol.RecvFromServer(Program.client, ref (header));
+
+                if (header.type != Protocol.PacketType.CHAT_RECV) {
+                    continue;
+                }
+
+                chat_recv = Protocol.ByteArrayToPacket<Protocol.PacketChatRecv>
+                    (byte_chat_recv, header.size);
+                rtfChatBox.AppendText(chat_recv.chat_msg + '\n');
             }
         }
     }

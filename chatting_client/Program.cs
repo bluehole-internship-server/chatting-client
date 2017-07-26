@@ -32,7 +32,7 @@ namespace chatting_client
 
                 client = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-                // client.Connect(remoteEP); it's lagging
+                client.Connect(remoteEP); //it's lagging
 
             } catch (Exception e) {
                 MessageBox.Show(e.ToString());

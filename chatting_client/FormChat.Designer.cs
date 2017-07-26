@@ -31,6 +31,7 @@
             this.txtChatMsg = new System.Windows.Forms.TextBox();
             this.rtfChatBox = new System.Windows.Forms.RichTextBox();
             this.btnSend = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtChatMsg
@@ -70,12 +71,21 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(18, 583);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 12);
+            this.lblError.TabIndex = 3;
+            // 
             // FormChat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.ClientSize = new System.Drawing.Size(340, 621);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.rtfChatBox);
             this.Controls.Add(this.txtChatMsg);
@@ -91,5 +101,6 @@
         private System.Windows.Forms.TextBox txtChatMsg;
         private System.Windows.Forms.RichTextBox rtfChatBox;
         private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Label lblError;
     }
 }

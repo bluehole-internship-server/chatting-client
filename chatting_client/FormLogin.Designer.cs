@@ -38,7 +38,7 @@
             this.btnLogin.Location = new System.Drawing.Point(143, 12);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 21);
-            this.btnLogin.TabIndex = 0;
+            this.btnLogin.TabIndex = 1;
             this.btnLogin.Text = "접속";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -49,7 +49,7 @@
             this.txtUserName.MaxLength = 15;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(113, 21);
-            this.txtUserName.TabIndex = 1;
+            this.txtUserName.TabIndex = 0;
             // 
             // lblResultMessage
             // 
