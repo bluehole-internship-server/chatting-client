@@ -54,8 +54,8 @@ namespace chatting_client
             byte[] byte_header = Protocol.PacketToByteArray(header);
             byte[] byte_chat_send = Protocol.PacketToByteArray(chat_send);
 
-            Program.client.Send(byte_header);
-            Program.client.Send(byte_chat_send);
+            Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
+            Program.client.Send(byte_chat_send, header.size, System.Net.Sockets.SocketFlags.None);
         }
 
         public void receive()
