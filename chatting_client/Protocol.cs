@@ -36,13 +36,13 @@ namespace chatting_client
 
         public struct PacketLoginAns
         {
-            public enum Type : int
+            public enum Type : short
             {
-                SUCCESS,
                 FAIL_DUPLICATE,
                 FAIL_TOO_SHORT,
                 FAIL_TOO_LONG,
-                FAIL_UNKNOWN
+                FAIL_UNKNOWN,
+                SUCCESS,
             }
 
             public Type type;
@@ -58,7 +58,7 @@ namespace chatting_client
         [StructLayout(LayoutKind.Sequential)]
         public struct PacketChatRecv
         {
-            public enum Type : int
+            public enum Type : short
             {
                 NORMAL,
                 NOTICE,

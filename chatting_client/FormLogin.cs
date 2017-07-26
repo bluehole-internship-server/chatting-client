@@ -89,6 +89,7 @@ namespace chatting_client
                     (byte_answer, header.size);
             }
             catch (Exception) {
+                MessageBox.Show("error at 92");
                 return Protocol.PacketLoginAns.Type.FAIL_UNKNOWN;
             }
 
