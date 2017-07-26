@@ -43,9 +43,10 @@ namespace chatting_client
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Application.Run(new FormLogin());
+            //Application.Run(new FormLogin());
 
-            if (state == State.LoginSucc) {
+            //if (state == State.LoginSucc)
+            {
                 FormChat form_chat = new FormChat();
                 Thread recv_thread = new Thread(form_chat.receive);
                 Application.Run(form_chat);
