@@ -66,9 +66,10 @@ namespace chatting_client
             }
 
             public Type type;
-
+            public ushort len_user_name;
+            
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-            public String chat_msg;
+            public String chat_contents;
         }
 
         public static byte[] PacketToByteArray(object obj)

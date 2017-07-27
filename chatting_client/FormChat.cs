@@ -88,7 +88,12 @@ namespace chatting_client
 
                     // post process
 
-                    AppendChatBox(chat_recv.chat_msg);
+                    Protocol.PacketChatRecv.Type type = chat_recv.type;
+                    string user_name = chat_recv.chat_contents.Substring(0, chat_recv.len_user_name);
+                    string chat_msg = chat_recv.chat_contents.Substring(chat_recv.len_user_name,
+                        header.size - 4 - chat_recv.len_user_name);
+
+                    AppendChatBox(type, user_name, chat_msg);
                 }
                 catch(Exception)
                 {
@@ -98,15 +103,16 @@ namespace chatting_client
             }
         }
 
-        private void AppendChatBox(string msg)
+        private void AppendChatBox(Protocol.PacketChatRecv.Type type, string user_name, string chat_msg)
         {
             if (InvokeRequired)
             {
-                this.Invoke(new Action<string>(AppendChatBox), new object[] { msg });
+                this.Invoke(new Action<Protocol.PacketChatRecv.Type, string, string>(AppendChatBox),
+                    new object[] { type, user_name, chat_msg });
                 return;
             }
             rtfChatBox.SelectionCharOffset = 5;
-            rtfChatBox.AppendText(msg + '\n');
+            rtfChatBox.AppendText(user_name + " : " + chat_msg + '\n');
 
             rtfChatBox.Select(rtfChatBox.Text.Length, 0);
             rtfChatBox.ScrollToCaret();
