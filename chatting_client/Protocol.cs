@@ -55,7 +55,8 @@ namespace chatting_client
             public String chat_msg;
         }
 
-        [StructLayout(LayoutKind.Sequential)]
+        // HACK
+        //[StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi)]
         public struct PacketChatRecv
         {
             public enum Type : short
@@ -132,6 +133,23 @@ namespace chatting_client
                 throw;
             }
         }
+
+        public static byte[] MergeTwoByteArr(byte[] arr1, byte[] arr2)
+        {
+            byte[] ret = new byte[arr1.Length + arr2.Length];
+            Buffer.BlockCopy(arr1, 0, ret, 0, arr1.Length);
+            Buffer.BlockCopy(arr2, 0, ret, arr1.Length, arr2.Length);
+
+            return ret;
+        }
+
+        public static byte[] SplitByteArr(byte[] arr, int offset, int len)
+        {
+            byte[] ret = new byte[len];
+            Buffer.BlockCopy(arr, offset, ret, 0, len);
+            return ret;
+        }
+        
     }
     
 }

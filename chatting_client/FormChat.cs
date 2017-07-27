@@ -62,8 +62,11 @@ namespace chatting_client
             byte[] byte_header = Protocol.PacketToByteArray(header);
             byte[] byte_chat_send = Protocol.PacketToByteArray(chat_send);
 
-            Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
-            Program.client.Send(byte_chat_send, header.size, System.Net.Sockets.SocketFlags.None);
+            Program.client.Send(Protocol.MergeTwoByteArr(byte_header, byte_chat_send),
+                Marshal.SizeOf(header) + header.size, System.Net.Sockets.SocketFlags.None);
+
+            //Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
+            //Program.client.Send(byte_chat_send, header.size, System.Net.Sockets.SocketFlags.None);
         }
 
         public void receive()
@@ -71,7 +74,6 @@ namespace chatting_client
             Protocol.PacketHeader header = new Protocol.PacketHeader();
             Protocol.PacketChatRecv chat_recv = new Protocol.PacketChatRecv();
             
-               
             while (true)
             {
                 try
@@ -89,11 +91,16 @@ namespace chatting_client
                     // post process
 
                     Protocol.PacketChatRecv.Type type = chat_recv.type;
-                    string user_name = chat_recv.chat_contents.Substring(0, chat_recv.len_user_name);
-                    string chat_msg = chat_recv.chat_contents.Substring(chat_recv.len_user_name,
-                        header.size - 4 - chat_recv.len_user_name);
 
-                    AppendChatBox(type, user_name, chat_msg);
+                    byte[] byte_chat_contents = Protocol.currEncoding.GetBytes(chat_recv.chat_contents);
+                    Color name_color = Color.FromArgb(byte_chat_contents[0], byte_chat_contents[1], byte_chat_contents[2]);
+
+                    string user_name = Protocol.currEncoding.GetString(Protocol.SplitByteArr(byte_chat_contents,
+                        0, chat_recv.len_user_name));
+                    string chat_msg = Protocol.currEncoding.GetString(Protocol.SplitByteArr(byte_chat_contents,
+                        chat_recv.len_user_name, header.size - 4 - chat_recv.len_user_name));
+                    
+                    AppendChatBox(type, user_name, name_color, chat_msg);
                 }
                 catch(Exception)
                 {
@@ -103,16 +110,20 @@ namespace chatting_client
             }
         }
 
-        private void AppendChatBox(Protocol.PacketChatRecv.Type type, string user_name, string chat_msg)
+        private void AppendChatBox(Protocol.PacketChatRecv.Type type, string user_name, Color name_color, string chat_msg)
         {
             if (InvokeRequired)
             {
-                this.Invoke(new Action<Protocol.PacketChatRecv.Type, string, string>(AppendChatBox),
-                    new object[] { type, user_name, chat_msg });
+                this.Invoke(new Action<Protocol.PacketChatRecv.Type, string, Color, string>(AppendChatBox),
+                    new object[] { type, user_name, name_color, chat_msg });
                 return;
             }
+
             rtfChatBox.SelectionCharOffset = 5;
-            rtfChatBox.AppendText(user_name + " : " + chat_msg + '\n');
+            rtfChatBox.SelectionColor = name_color;
+            rtfChatBox.AppendText(user_name);
+            rtfChatBox.SelectionColor = rtfChatBox.ForeColor;
+            rtfChatBox.AppendText(": " + chat_msg + '\n');
 
             rtfChatBox.Select(rtfChatBox.Text.Length, 0);
             rtfChatBox.ScrollToCaret();

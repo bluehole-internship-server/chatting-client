@@ -76,8 +76,11 @@ namespace chatting_client
 
             try
             {
-                Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
-                Program.client.Send(byte_request, header.size, System.Net.Sockets.SocketFlags.None);
+                Program.client.Send(Protocol.MergeTwoByteArr(byte_header, byte_request),
+                    Marshal.SizeOf(header) + header.size, System.Net.Sockets.SocketFlags.None);
+
+                //Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
+                //Program.client.Send(byte_request, header.size, System.Net.Sockets.SocketFlags.None);
 
                 byte[] byte_answer = Protocol.RecvFromServer(Program.client, ref (header));
 

@@ -16,7 +16,7 @@ namespace chatting_client
         /// 
         public enum State { LoginReady, LoginSucc, Chat };
 
-        private const String addr = "127.0.0.1";
+        private const String addr = "10.1.5.30";
         private const int port = 55150;
 
         public static Socket client;
@@ -49,7 +49,7 @@ namespace chatting_client
             {
                 Application.Run(new FormChat());
             }
-            MessageBox.Show("Client terminated");
+            Environment.Exit(Environment.ExitCode);
         }
     }
 }
