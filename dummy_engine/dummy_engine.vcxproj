@@ -27,6 +27,9 @@
     <ClInclude Include="include\dummy_engine.hpp" />
     <ClInclude Include="include\header.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="config\config.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{148BEEE1-FDD5-4527-A8F8-EF5EEE209962}</ProjectGuid>

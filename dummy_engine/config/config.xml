@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<dummy_group_list>
+  <dummy_group prefix="우결충">
+    <num>10</num>
+    <script_list>
+      <script>모야모야</script>
+      <script>모야모야~~</script>
+      <script>^^7</script>
+    </script_list>
+  </dummy_group>
+
+  <dummy_group prefix="돌크리트">
+    <num>20</num>
+    <script_list>
+      <script>55도발 왜 안하냐고</script>
+      <script>딴겜 언제하냐</script>
+      <script>서순;</script>
+    </script_list>
+  </dummy_group>
+</dummy_group_list>

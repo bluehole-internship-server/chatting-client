@@ -16,12 +16,12 @@
 
 class DummyEngine {
 private:
-    //class Dummy;
     typedef class Dummy* DummyPtr;
     struct DummyGroup {
-        std::string prefix_;
-        std::vector<DummyPtr> dummies_;
-        std::vector<std::string> scripts_;
+        int num;
+        std::string prefix;
+        std::vector<DummyPtr> dummies;
+        std::vector<std::string> scripts;
     };
 
 public:
@@ -33,8 +33,6 @@ private:
     std::vector<DummyGroup> dummy_groups_;
     bool is_connected_;
 
-    // server_addr, dummy type, script for dummy, number of each type
-    // prefixes for dummy
 };
 
 class Dummy {
@@ -46,4 +44,5 @@ public:
 private:
     std::string dummy_name_;
     SOCKET socket_;
+
 };
