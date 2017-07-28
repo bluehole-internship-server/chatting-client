@@ -1,6 +1,8 @@
 //
 // dummy_engine.cpp
 //
+#include <random>
+#include <stdlib.h>
 
 #include "dummy_engine.hpp"
 
@@ -33,7 +35,7 @@ DummyEngine::DummyEngine(std::string &&xml_path)
 
             for (int i = 0; i < group->num; i++) {
                 group->dummies.push_back(new Dummy(
-                    group->prefix + std::to_string(i + 1),
+                    group->prefix + "#" + std::to_string(i + 1),
                     socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
                 ));
             }
@@ -54,9 +56,9 @@ bool DummyEngine::Connect(PSOCKADDR_IN server_addr)
             bool ret = connect(dummy->GetSocket(),
                 reinterpret_cast<PSOCKADDR>(server_addr),
                 sizeof(*server_addr)) == 0;
-            
-            strcpy(packet.dummy_name, dummy->GetName().c_str());
+
             packet.header.size = dummy->GetName().size();
+            strcpy(packet.dummy_name, dummy->GetName().c_str());
             int len = sizeof(packet_header) + dummy->GetName().size();
             ret &= send(dummy->GetSocket(),
                 reinterpret_cast<const char*>(&packet),
@@ -75,9 +77,24 @@ bool DummyEngine::Connect(PSOCKADDR_IN server_addr)
 void DummyEngine::Run()
 {
     if (!is_connected_) return;
-    while (1) {
-
+    for (DummyGroup* group : dummy_groups_) {
+        std::mt19937 mt_rand(time(0) + rand());
+        std::thread
+        { [group, &mt_rand]() {
+            while (true) {
+                Dummy* dummy = group->dummies[mt_rand() % group->dummies.size()];
+                {
+                    std::string &message =
+                        group->scripts[mt_rand() % group->scripts.size()];
+                    dummy->Send(message);
+                    Sleep(mt_rand() %  3000);
+                }
+            }
+        }}.detach();
     }
+
+    // forget thread join
+    while (1);
 }
 
 Dummy::Dummy(std::string &dummy_name, SOCKET socket)
@@ -86,6 +103,16 @@ Dummy::Dummy(std::string &dummy_name, SOCKET socket)
 {
 }
 
-void Dummy::Send(std::string &msg)
+bool Dummy::Send(std::string &msg)
 {
+    chat_packet packet;
+    packet.header.type = 2; /* CHAT_SEND */
+    packet.header.size = msg.size();
+    strcpy(packet.chat_msg, msg.c_str());
+
+    int len = sizeof(packet_header) + packet.header.size;
+
+    return send(socket_,
+        reinterpret_cast<const char*>(&packet),
+        len, 0) == len;
 }

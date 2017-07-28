@@ -13,12 +13,23 @@ namespace chatting_client
 {
     public partial class FormChat : Form
     {
+        private static Color[] colors = new Color[] { Color.FromArgb(0xff0000),
+            Color.FromArgb(0x00f), Color.FromArgb(0x008000), Color.FromArgb(0xb22222),
+            Color.FromArgb(0xb2222), Color.FromArgb(0xff7f50), Color.FromArgb(0x9acd32),
+            Color.FromArgb(0xff4500), Color.FromArgb(0x2e8b57), Color.FromArgb(0xdaa520),
+            Color.FromArgb(0xd2691e), Color.FromArgb(0x5f9ea0), Color.FromArgb(0x1e90ff),
+            Color.FromArgb(0xff69b4), Color.FromArgb(0x8a2be2)};
+
         public FormChat()
         {
             InitializeComponent();
 
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             rtfChatBox.SelectionCharOffset = 8;
+            rtfChatBox.SelectionColor = Color.FromArgb(0x6e6779);
             rtfChatBox.AppendText("Welcome to the chat room!\n");
+            rtfChatBox.SelectionColor = rtfChatBox.ForeColor;
         }
 
         private void FormChat_Shown(object sender, EventArgs e)
@@ -30,6 +41,7 @@ namespace chatting_client
         private void btnSend_Click(object sender, EventArgs e)
         {
             String contents = txtChatMsg.Text;
+            if (contents.Length == 0) return;
             txtChatMsg.Clear();
 
             try
@@ -64,9 +76,6 @@ namespace chatting_client
 
             Program.client.Send(Protocol.MergeTwoByteArr(byte_header, byte_chat_send),
                 Marshal.SizeOf(header) + header.size, System.Net.Sockets.SocketFlags.None);
-
-            //Program.client.Send(byte_header, Marshal.SizeOf(header), System.Net.Sockets.SocketFlags.None);
-            //Program.client.Send(byte_chat_send, header.size, System.Net.Sockets.SocketFlags.None);
         }
 
         public void receive()
@@ -93,13 +102,13 @@ namespace chatting_client
                     Protocol.PacketChatRecv.Type type = chat_recv.type;
 
                     byte[] byte_chat_contents = Protocol.currEncoding.GetBytes(chat_recv.chat_contents);
-                    Color name_color = Color.FromArgb(byte_chat_contents[0], byte_chat_contents[1], byte_chat_contents[2]);
-
+                    
                     string user_name = Protocol.currEncoding.GetString(Protocol.SplitByteArr(byte_chat_contents,
                         0, chat_recv.len_user_name));
                     string chat_msg = Protocol.currEncoding.GetString(Protocol.SplitByteArr(byte_chat_contents,
                         chat_recv.len_user_name, header.size - 4 - chat_recv.len_user_name));
-                    
+                    Color name_color = colors[Math.Abs(user_name.GetHashCode()) % colors.Length];
+
                     AppendChatBox(type, user_name, name_color, chat_msg);
                 }
                 catch(Exception)
@@ -120,8 +129,11 @@ namespace chatting_client
             }
 
             rtfChatBox.SelectionCharOffset = 5;
+            rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Bold);
             rtfChatBox.SelectionColor = name_color;
             rtfChatBox.AppendText(user_name);
+
+            rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Regular);
             rtfChatBox.SelectionColor = rtfChatBox.ForeColor;
             rtfChatBox.AppendText(": " + chat_msg + '\n');
 

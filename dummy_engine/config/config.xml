@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="euc-kr"?>
 <dummy_group_list>
-  <dummy_group prefix="우결충">
+  <dummy_group prefix="트수">
     <num>10</num>
     <script_list>
-      <script>모야모야</script>
+      <script>;;</script>
+      <script>갑분싸;</script>
+      <script>개꿀잼 몰카인가?</script>
+      <script>ㅋㅋㅋㅋㅋㅋㅋ</script>
+      <script>에반대</script>
+      <script>대박</script>
+      <script>방종각 --</script>
+      <script>뭐하는거지?</script>
+      <script>?</script>
+      <script>??</script>
+    </script_list>
+  </dummy_group>
+  
+  <dummy_group prefix="우결충">
+    <num>5</num>
+    <script_list>
+      <script>모야~</script>
       <script>모야모야~~</script>
-      <script>^^7</script>
+      <script>충성충성^^7</script>
+      <script>ㅗㅜㅑ</script>
+      <script>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</script>
+      <script>??</script>
     </script_list>
   </dummy_group>
 
   <dummy_group prefix="돌크리트">
-    <num>20</num>
+    <num>5</num>
     <script_list>
+      <script>;;</script>
       <script>55도발 왜 안하냐고</script>
+      <script>프로브냐</script>
       <script>딴겜 언제하냐</script>
       <script>서순;</script>
+      <script>?</script>
+      <script>??</script>
+      <script>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ</script>
+      <script>아무튼있음</script>
     </script_list>
   </dummy_group>
 </dummy_group_list>

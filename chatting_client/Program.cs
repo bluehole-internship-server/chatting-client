@@ -16,7 +16,7 @@ namespace chatting_client
         /// 
         public enum State { LoginReady, LoginSucc, Chat };
 
-        private const String addr = "10.1.5.30";
+        private const String addr = "127.0.0.1";
         private const int port = 55150;
 
         public static Socket client;

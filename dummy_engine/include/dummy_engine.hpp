@@ -18,9 +18,15 @@ struct packet_header {
     short size;
     short type;
 };
+
 struct login_packet {
     packet_header header;
     char dummy_name[80];
+};
+
+struct chat_packet {
+    packet_header header;
+    char chat_msg[256];
 };
 
 class DummyEngine {
@@ -48,7 +54,8 @@ class Dummy {
 public:
     explicit Dummy(std::string &dummy_name, SOCKET socket);
 
-    void Send(std::string &msg);
+    // for now, it's sync and blocking
+    bool Send(std::string &msg);
 
     SOCKET GetSocket() { return socket_; }
     std::string &GetName() { return dummy_name_; }

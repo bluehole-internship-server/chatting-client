@@ -55,7 +55,8 @@
             this.rtfChatBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(249)))), ((int)(((byte)(250)))));
             this.rtfChatBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtfChatBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.rtfChatBox.Location = new System.Drawing.Point(20, 12);
+            this.rtfChatBox.Font = new System.Drawing.Font("돋움", 9F);
+            this.rtfChatBox.Location = new System.Drawing.Point(20, 19);
             this.rtfChatBox.Name = "rtfChatBox";
             this.rtfChatBox.ReadOnly = true;
             this.rtfChatBox.Size = new System.Drawing.Size(300, 490);
@@ -64,12 +65,22 @@
             // 
             // btnSend
             // 
+            this.btnSend.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(65)))), ((int)(((byte)(164)))));
+            this.btnSend.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(65)))), ((int)(((byte)(164)))));
+            this.btnSend.FlatAppearance.BorderSize = 0;
+            this.btnSend.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(65)))), ((int)(((byte)(164)))));
+            this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(65)))), ((int)(((byte)(164)))));
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSend.Font = new System.Drawing.Font("굴림", 9F);
+            this.btnSend.ForeColor = System.Drawing.Color.White;
             this.btnSend.Location = new System.Drawing.Point(275, 574);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(0);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(45, 30);
             this.btnSend.TabIndex = 2;
             this.btnSend.Text = "채팅";
-            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.UseVisualStyleBackColor = false;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // lblError
@@ -90,6 +101,8 @@
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.rtfChatBox);
             this.Controls.Add(this.txtChatMsg);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormChat";
             this.Text = "Chat";
             this.Shown += new System.EventHandler(this.FormChat_Shown);
