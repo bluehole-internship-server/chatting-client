@@ -14,6 +14,15 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
+struct packet_header {
+    short size;
+    short type;
+};
+struct login_packet {
+    packet_header header;
+    char dummy_name[80];
+};
+
 class DummyEngine {
 private:
     typedef class Dummy* DummyPtr;
@@ -30,7 +39,7 @@ public:
     void Run();
     
 private:
-    std::vector<DummyGroup> dummy_groups_;
+    std::vector<DummyGroup*> dummy_groups_;
     bool is_connected_;
 
 };
@@ -40,6 +49,9 @@ public:
     explicit Dummy(std::string &dummy_name, SOCKET socket);
 
     void Send(std::string &msg);
+
+    SOCKET GetSocket() { return socket_; }
+    std::string &GetName() { return dummy_name_; }
 
 private:
     std::string dummy_name_;
