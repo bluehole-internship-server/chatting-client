@@ -63,7 +63,8 @@ namespace chatting_client
             {
                 NORMAL,
                 NOTICE,
-                WHISPER
+                WHISPER,
+                COMMAND
             }
 
             public Type type;

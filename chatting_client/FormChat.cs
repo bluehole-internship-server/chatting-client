@@ -134,8 +134,26 @@ namespace chatting_client
             rtfChatBox.AppendText(user_name);
 
             rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Regular);
+            rtfChatBox.AppendText(": ");
+
+            switch (type)
+            {
+                case Protocol.PacketChatRecv.Type.NORMAL:
+                    rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Regular);
+                    break;
+                case Protocol.PacketChatRecv.Type.WHISPER:
+                    rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Underline);
+                    break;
+                case Protocol.PacketChatRecv.Type.NOTICE:
+                    rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Bold);
+                    break;
+                case Protocol.PacketChatRecv.Type.COMMAND:
+                    rtfChatBox.SelectionFont = new Font("Tahoma", 9, FontStyle.Bold);
+                    break;
+            }
+
             rtfChatBox.SelectionColor = rtfChatBox.ForeColor;
-            rtfChatBox.AppendText(": " + chat_msg + '\n');
+            rtfChatBox.AppendText(chat_msg + '\n');
 
             rtfChatBox.Select(rtfChatBox.Text.Length, 0);
             rtfChatBox.ScrollToCaret();
